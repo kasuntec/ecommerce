@@ -1,0 +1,13 @@
+spring:
+  profiles:
+    active: native  # ✅ Correct format
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/kasuntec/ecommerce.git
+          search-paths: configurations
+server:
+  port: 8888

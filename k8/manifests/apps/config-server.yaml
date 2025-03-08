@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: config-server
+  name: config-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: config-server
+  template:
+    metadata:
+      labels:
+        app: config-server
+    spec:
+      containers:
+        - image: kasuntec/config-server:latest
+          name: config-server
+          ports:
+            - containerPort: 8888
+
+          volumeMounts:
+            - name: config-volume
+              mountPath: /configurations
+      volumes:
+        - name: config-volume
+          configMap:
+            name: config-server-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-server-config
+data:
+  application.yml: |
+    spring:
+      cloud:
+        config:
+          server:
+            git:
+              uri: https://github.com/kasuntec/ecommerce.git
+              clone-on-start: true
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: config-server
+spec:
+  selector:
+    app: config-server
+  ports:
+    - protocol: TCP
+      port: 8888
+      targetPort: 8888
+

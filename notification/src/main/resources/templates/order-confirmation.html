@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            color: #4CAF50;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .content {
+            font-size: 16px;
+            color: #333;
+        }
+        .order-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .order-table th, .order-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .order-table th {
+            background-color: #f2f2f2;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">Order Confirmation</div>
+    <div class="content">
+        <p>Dear <span th:text="${customerName}"></span>,</p>
+        <p>We have received your order with reference number <strong th:text="${orderRef}"></strong>.</p>
+        <p>Order total: <strong th:text="${amount}"></strong></p>
+        <table class="order-table">
+            <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="orderLine : ${orderLines}">
+                <td th:text="${orderLine.productId}"></td>
+                <td th:text="${orderLine.productName}"></td>
+                <td th:text="${orderLine.price}"></td>
+                <td th:text="${orderLine.qty}"></td>
+                <td th:text="${orderLine.qty * orderLine.price}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <p>Thank you for your purchase!</p>
+    </div>
+    <div class="footer">
+        &copy; 2025 Your Company. All rights reserved.
+    </div>
+</div>
+</body>
+</html>
